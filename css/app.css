@@ -1,0 +1,211 @@
+/*
+flipping the image
+https://davidwalsh.name/css-flip
+https://www.htmlgoodies.com/tutorials/web_graphics/article.php/3479941/So-You-Want-An-Image-Flip-Huh.htm
+https://www.tutorialrepublic.com/faq/how-to-create-3d-flipping-effect-on-mouse-hover-using-css.php
+http://css3.bradshawenterprises.com/flip/
+https://davidwalsh.name/demo/css-flip.php
+for zooming 
+https://www.w3schools.com/howto/howto_css_zoom_hover.asp
+changing the visibility of the star
+https://stackoverflow.com/questions/14356124/how-to-change-the-visibility-of-a-div-tag-using-javascript-in-the-same-page
+
+for the buttons
+https://www.w3schools.com/css/css3_buttons.asp
+https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_padding
+https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_round
+
+for the modal content view that will be displayed at the end of the game
+https://www.w3schools.com/howto/howto_css_modals.asp
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
+*/
+
+
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    font-family: 'Coda', cursive;
+    font-weight: bold;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    color:  #009933;
+}
+
+h2 {
+    color: #ff8000;
+}
+
+
+p {
+    color: #0000cc;
+    font-weight: bold;
+}
+
+/*
+ * Styles for the deck of cards
+ */
+
+.deck {
+    width: 660px;
+    min-height: 680px;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 3em;
+}
+
+.deck .card {
+    height: 125px;
+    width: 125px;
+    background: #2e3d49;
+    font-size: 0;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+}
+
+.deck .card.open {
+    transform: rotateY(0);
+    background: #02b3e4;
+    cursor: default;
+    transition: 0.6s;
+    transform-style: preserve-3d;
+}
+
+.deck .card.show {
+    font-size: 33px;
+}
+
+.deck .card.match {
+    cursor: default;
+    background: #02ccba;
+    font-size: 33px;
+}
+
+
+/*changes the background color of the cards when they are matched and unmatched*/
+.deck .card.correct {
+    background: #00cc00;
+    transform: scale(1.15);
+}
+
+.deck .card.wrong {
+    background: #ff0000;
+    transform: scale(1.15);
+}
+
+/*
+ * Styles for the Score Panel
+ */
+
+.score-panel {
+    text-align: left;
+    width: 345px;
+    margin-bottom: 10px;
+}
+
+.score-panel .stars {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin: 0 5px 0 0;
+    color: #e68a00;
+    transform: scale(1.5);
+    margin-right: 25px;
+}
+
+.score-panel .stars li {
+    list-style: none;
+    display: inline-block;
+}
+
+.score-panel .restart {
+    float: right;
+    cursor: pointer;
+    color: #008080;
+}
+
+
+#time {
+    margin-left: 40px;
+    color: red;
+}
+
+
+/*styles for the pop-up model that is displayed at the end of the game*/
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 150px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    background-color: #f2f2f2;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    text-align: center;
+    width: 80%;
+}
+
+
+.play-again-button {
+    background-color: #ffbf00;
+    background-color: #00cc00;
+    border: none;
+    color: white;
+    border-radius: 12px;
+    padding: 14px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
