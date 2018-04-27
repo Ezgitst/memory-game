@@ -27,6 +27,11 @@ let	final_star = document.getElementsByClassName('fa fa-star');
 let class_old;
 let class_new;
 
+let start_index = 0;
+
+
+let open_card_count = 0;
+
 
 //to hide the modal 
 close_modal.onclick = function(){
@@ -41,9 +46,6 @@ window.onclick = function(event){
 	}
 }
 
-document.getElementsByClassName("play-again-button")[0].onclick = function(){
-	window.location.reload();
-};
 
 
 let cards = Array.from(document.getElementsByClassName("card"));
@@ -65,10 +67,19 @@ let correct_move_count = 0;
 let new_array = [];
 
 
+
 document.body.onload = startPlaying(cards);
 
 
 document.getElementById("time").innerHTML = "O mins 0 secs";
+
+
+/*reset the star visibility to initial value*/
+function resetStarVisibility(){
+	document.getElementsByClassName('fa fa-star')[0].style.visibility = "visible";
+	document.getElementsByClassName('fa fa-star')[1].style.visibility = "visible";
+	document.getElementsByClassName('fa fa-star')[2].style.visibility = "visible";
+}
 
 /*
  * Display the cards on the page
@@ -170,15 +181,11 @@ function startPlaying(cards) {
 
 		if(i === 0){
 			class_old = cards[i].childNodes[1].classList[1];
-			console.log(class_old);
 			class_new = my_array[i];
-			console.log(class_new);
 		}
 		else{
 			class_old = cards[i].childNodes[1].classList[1];
-			console.log(class_old);
 			class_new = my_array[i];
-			console.log(class_new);
 		}
 
 
@@ -216,9 +223,11 @@ function incrementMoveCount(){
 	let move_element = document.getElementsByClassName('moves')[0];
 	let old_move_count = move_element.textContent;
 
+	/*
 	if(parseInt(old_move_count) == 0){
 		elapsedTime();
 	}
+	*/
 
 	let new_move_count = parseInt(old_move_count) + 1;
 	move_element.innerText = String(new_move_count);
@@ -244,6 +253,15 @@ function incrementMoveCount(){
 		star[2].style.visibility = "visible";
 	}
 }
+
+
+
+document.getElementsByClassName("play-again-button")[0].onclick = function(){
+	start_index = 0;
+	resetStarVisibility();
+	window.location.reload();
+};
+
 
 function gameState(){
 
@@ -293,7 +311,7 @@ function matchCards(card_list, cclass, cid) {
 
 
 	}, 500);
-
+	//500
 
 
 	setTimeout(function() {
@@ -309,7 +327,10 @@ function matchCards(card_list, cclass, cid) {
 		card_class.pop();
 		card_class.pop();
 
-	}, 1000);
+	}, 750);
+	//1000
+
+	open_card_count = 0;
 
 	//at the end of the function check the state of the cards and decide whether to continue or end the game
 	return gameState();
@@ -330,6 +351,7 @@ function closeCards(card_list, cclass, cid){
 		card_list[cid[1]].classList.remove("show", "open");
 
 	}, 500);
+	//500
 
 
 	setTimeout(function() {
@@ -345,7 +367,10 @@ function closeCards(card_list, cclass, cid){
 		card_class.pop();
 		card_class.pop();
 
-	}, 1000);
+	}, 750);
+	//1000
+
+	open_card_count = 0;
 
 	return 0;
 
@@ -375,18 +400,36 @@ function compareCards(card_list, cclass, cid){
 
 function openCard(card_list, index) {
 
-	let card = card_list[index];
-
-	console.log(card.classList);
-	card.classList.add("open", "show");
-
-	card_state[index] = 1;
-	card_class.push(card.childNodes[1].classList[1]);
-	card_id.push(index);
-
-	if(card_class.length == 2){
-		return compareCards(card_list, card_class, card_id);
+	//still processing the previous cards do nothing
+	if(open_card_count === 2){
+		console.log("STILL PROCESSING THE PREVIOUS COMPARISON, WAIT THE COMPARISON RESULT TO MOVE ON WITH THE NEXT SELECTION");
+		//do nothing
 	}
+
+	else{
+
+		open_card_count++;
+
+		let card = card_list[index];
+
+		if(parseInt(start_index) == 0){
+			elapsedTime();
+			start_index++;
+		}
+
+
+		card.classList.add("open", "show");
+
+		card_state[index] = 1;
+		card_class.push(card.childNodes[1].classList[1]);
+		card_id.push(index);
+
+		if(card_class.length == 2){
+			return compareCards(card_list, card_class, card_id);
+		}
+	}
+
+
 }
 
 
@@ -443,6 +486,9 @@ function starCount(){
 
 document.getElementsByClassName('restart')[0].addEventListener('click', function(){
 
+	start_index = 0;
+
+	resetStarVisibility();
 	startPlaying(cards);
 
 
@@ -483,13 +529,13 @@ for(let i=0; i<cards.length; i++){
   				let textnode;
 
   				if(scount == 1){
-  					textnode = document.createTextNode("Based on your star rating, your performance during the game is FAIR (1 star)"); 	
+  					textnode = document.createTextNode("Based on your star rating, your performance during the game is FAIR and your 'Star Rating' is 1."); 	
   				}
   				else if(scount == 2){
-  					textnode = document.createTextNode("Based on your star rating, your performance during the game is GOOD (2 stars)"); 	 	
+  					textnode = document.createTextNode("Based on your star rating, your performance during the game is GOOD and your 'Star Rating' is 2."); 	 	
   				}
   				else{
-  					textnode = document.createTextNode("Based on your star rating, your performance during the game is EXCELLENT (3 stars)"); 	
+  					textnode = document.createTextNode("Based on your star rating, your performance during the game is EXCELLENT and your 'Star Rating' is 3."); 	
   				}       
 				
 				node.appendChild(textnode);                              
